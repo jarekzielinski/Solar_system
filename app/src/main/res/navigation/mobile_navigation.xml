@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_planet">
+
+    <fragment
+        android:id="@+id/nav_planet"
+        android:name="com.pl.solarsystem.ui.planet.PlanetFragment"
+        android:label="@string/nav_planets"
+        tools:layout="@layout/fragment_planet" />
+
+    <fragment
+        android:id="@+id/nav_moon"
+        android:name="com.pl.solarsystem.ui.moon.MoonFragment"
+        android:label="@string/nav_moons"
+        tools:layout="@layout/fragment_moon" />
+
+    <fragment
+        android:id="@+id/nav_other"
+        android:name="com.pl.solarsystem.ui.other.OtherFragment"
+        android:label="@string/nav_others"
+        tools:layout="@layout/fragment_other" />
+</navigation>
