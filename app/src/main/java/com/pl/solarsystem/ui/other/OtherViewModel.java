@@ -1,16 +1,16 @@
-package com.pl.solarsystem.ui.moon;
+package com.pl.solarsystem.ui.other;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class GalleryViewModel extends ViewModel {
+public class OtherViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public GalleryViewModel() {
+    public OtherViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is gallery fragment");
+        mText.setValue("This is other fragment");
     }
 
     public LiveData<String> getText() {

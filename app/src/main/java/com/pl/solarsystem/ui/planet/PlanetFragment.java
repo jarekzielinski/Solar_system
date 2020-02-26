@@ -16,15 +16,15 @@ import com.pl.solarsystem.R;
 
 public class PlanetFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
+    private PlanetVewModel planetVewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
+        planetVewModel =
+                ViewModelProviders.of(this).get(PlanetVewModel.class);
         View root = inflater.inflate(R.layout.fragment_planet, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
-        homeViewModel.getText().observe(this, new Observer<String>() {
+        final TextView textView = root.findViewById(R.id.text_planet);
+        planetVewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
