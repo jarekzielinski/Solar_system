@@ -6,6 +6,10 @@ import androidx.lifecycle.ViewModel;
 
 public class OtherViewModel extends ViewModel {
 
+    public MutableLiveData<String> getmText() {
+        return mText;
+    }
+
     private MutableLiveData<String> mText;
 
     public OtherViewModel() {
