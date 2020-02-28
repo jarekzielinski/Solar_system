@@ -15,8 +15,9 @@ import com.pl.solarsystem.model.SolarObject;
 
 import java.util.List;
 
-public class SolarObjectsAdapter extends RecyclerView.Adapter<SolarObjectsAdapter.SolarObjectViewHolder>  {
+public class SolarObjectsAdapter extends RecyclerView.Adapter<SolarObjectsAdapter.SolarObjectViewHolder> {
     private List<SolarObject> solarObjects;
+
     public SolarObjectsAdapter(List<SolarObject> solarObjects) {
         this.solarObjects = solarObjects;
     }

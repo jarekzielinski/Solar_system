@@ -5,20 +5,32 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-public class MoonsPagerAdapter extends FragmentStatePagerAdapter {
+import com.pl.solarsystem.model.SolarObject;
+import com.pl.solarsystem.ui.solarObject.SolarObjectsFragment;
 
-    public MoonsPagerAdapter(@NonNull FragmentManager fm, int behavior) {
+import java.util.List;
+
+public class MoonsPagerAdapter extends FragmentStatePagerAdapter {
+    private final List<SolarObject> objectWithMoons;
+
+    public MoonsPagerAdapter(@NonNull FragmentManager fm, int behavior, List<SolarObject> objectWithMoons) {
         super(fm, behavior);
+        this.objectWithMoons = objectWithMoons;
+    }
+
+    public MoonsPagerAdapter(@NonNull FragmentManager fm, List<SolarObject> objectWithMoons) {
+        super(fm);
+        this.objectWithMoons = objectWithMoons;
     }
 
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        return null;
+        return SolarObjectsFragment.newInstance(objectWithMoons.get(position).getMoons());
     }
 
     @Override
     public int getCount() {
-        return 0;
+        return objectWithMoons.size();
     }
 }

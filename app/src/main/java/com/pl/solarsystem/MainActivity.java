@@ -1,27 +1,19 @@
 package com.pl.solarsystem;
 
 import android.os.Bundle;
-
-import android.util.Log;
 import android.view.MenuItem;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.ui.AppBarConfiguration;
-
 import com.google.android.material.navigation.NavigationView;
 import com.pl.solarsystem.model.SolarObject;
 import com.pl.solarsystem.ui.moon.MoonFragment;
-import com.pl.solarsystem.ui.other.OtherFragment;
 import com.pl.solarsystem.ui.solarObject.SolarObjectsFragment;
-
-import androidx.drawerlayout.widget.DrawerLayout;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,13 +39,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                        .setAction("Action", null).show();
 //            }
 //        });
-        planets = SolarObject.loadArrayFromJSON(this,"planets");
-        others = SolarObject.loadArrayFromJSON(this,"others");
+        planets = SolarObject.loadArrayFromJSON(this, "planets");
+        others = SolarObject.loadArrayFromJSON(this, "others");
         moons = new ArrayList<>();
-        for (SolarObject solarObject:planets){
-            if(solarObject.hasMoons())
+        for (SolarObject solarObject : planets) {
+            if (solarObject.hasMoons())
                 moons.add(solarObject);
-        }for (SolarObject solarObject:others) {
+        }
+        for (SolarObject solarObject : others) {
             if (solarObject.hasMoons())
                 moons.add(solarObject);
         }
@@ -75,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentTransaction.replace(R.id.containerLayout, SolarObjectsFragment.newInstance(planets)).commit();
         } else if (menuItem.getItemId() == R.id.nav_moon) {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.containerLayout, new MoonFragment()).commit();
+            fragmentTransaction.replace(R.id.containerLayout,MoonFragment.newInstance(moons)).commit();
         } else if (menuItem.getItemId() == R.id.nav_other) {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.containerLayout, SolarObjectsFragment.newInstance(others)).commit();
@@ -86,9 +79,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        if(drawer.isDrawerOpen(GravityCompat.START)){
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        }else
-        super.onBackPressed();
+        } else
+            super.onBackPressed();
     }
 }

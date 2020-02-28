@@ -1,6 +1,5 @@
 package com.pl.solarsystem.ui.moon;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
