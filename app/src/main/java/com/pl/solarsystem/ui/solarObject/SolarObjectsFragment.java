@@ -9,8 +9,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,12 +28,11 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SolarObjectsFragment extends Fragment {
+public class SolarObjectsFragment extends Fragment implements SolarObjectsAdapter.SolarObjectClickedListener {
 
     private SolarObjectFragmentViewModel solarObjectFragmentViewModel;
     public static final String OBJECTS_KEY = "objects";
     private RecyclerView recyclerView;
-
 
     public SolarObjectsFragment() {
         // Required empty public constructor
@@ -42,15 +43,14 @@ public class SolarObjectsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_solar_objects, container, false);
-
-//        recyclerView=root.findViewById(R.id.objectsWithMoons);
-//        recyclerView.setLayoutManager(new GridLayoutManager(root.getContext(),2));
-        final TextView textView=root.findViewById(R.id.solarObjectTextView);
+        recyclerView=root.findViewById(R.id.objectsRecyclerView);
         solarObjectFragmentViewModel = ViewModelProviders.of(this).get(SolarObjectFragmentViewModel.class);
-        solarObjectFragmentViewModel.getmText().observe(this, new Observer<String>() {
+        List<SolarObject> solarObjects = (List<SolarObject>) getArguments().getSerializable(OBJECTS_KEY);
+        solarObjectFragmentViewModel.getmText().setValue(solarObjects);
+        solarObjectFragmentViewModel.getmText().observe(this, new Observer<List<SolarObject>>() {
                     @Override
-                    public void onChanged(String s) {
-                        textView.setText(s);
+                    public void onChanged(List<SolarObject> solarObjects) {
+                       prepareRecyclerView(solarObjects);
                     }
                 }
 
@@ -62,13 +62,6 @@ public class SolarObjectsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        List<SolarObject> solarObjects = (List<SolarObject>) getArguments().getSerializable(OBJECTS_KEY);
-//        recyclerView.setAdapter(new SolarObjectsAdapter(solarObjects));
-        StringBuilder stringBuilder=new StringBuilder();
-        for (SolarObject solarObject:solarObjects){
-            stringBuilder.append(solarObject.getName()+"\n");
-        }
-        solarObjectFragmentViewModel.getmText().setValue(String.valueOf(stringBuilder));
     }
 
     public static SolarObjectsFragment newInstance(List<SolarObject> solarObjects) {
@@ -80,4 +73,16 @@ public class SolarObjectsFragment extends Fragment {
         return fragment;
     }
 
+    @Override
+    public void solarObjectClicked(SolarObject solarObject) {
+        Log.d("Clicked ", solarObject.getName());
+    }
+    public void prepareRecyclerView(List<SolarObject> solarObjects){
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
+
+        SolarObjectsAdapter solarObjectsAdapter=new SolarObjectsAdapter(solarObjectFragmentViewModel.getmText().getValue());
+        solarObjectsAdapter.setSolarObjectClickedListener(this);
+        recyclerView.setAdapter(solarObjectsAdapter);
+
+    }
 }

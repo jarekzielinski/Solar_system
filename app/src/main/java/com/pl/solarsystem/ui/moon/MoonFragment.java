@@ -23,7 +23,7 @@ public class MoonFragment extends Fragment {
         moonViewModel =
                 ViewModelProviders.of(this).get(MoonViewModel.class);
         View root = inflater.inflate(R.layout.fragment_moon, container, false);
-        final TextView textView = root.findViewById(R.id.text_moon);
+        final TextView textView = root.findViewById(R.id.moonsViewPager);
         moonViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

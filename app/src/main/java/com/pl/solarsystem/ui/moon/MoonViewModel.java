@@ -10,10 +10,9 @@ public class MoonViewModel extends ViewModel {
 
     public MoonViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is moon fragment");
     }
 
-    public LiveData<String> getText() {
+    public MutableLiveData<String> getText() {
         return mText;
     }
 }

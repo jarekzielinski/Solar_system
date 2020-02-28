@@ -73,10 +73,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (menuItem.getItemId() == R.id.nav_planet) {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.containerLayout, SolarObjectsFragment.newInstance(planets)).commit();
-
-
-//            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//            fragmentTransaction.replace(R.id.containerLayout, new PlanetFragment()).commit();
         } else if (menuItem.getItemId() == R.id.nav_moon) {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.containerLayout, new MoonFragment()).commit();
