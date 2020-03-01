@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.tabs.TabLayout;
 import com.pl.solarsystem.R;
 import com.pl.solarsystem.model.SolarObject;
 
@@ -24,6 +25,7 @@ public class MoonFragment extends Fragment {
     public static final String OBJECTS = "objects";
     private MoonViewModel moonViewModel;
     private ViewPager viewPager;
+    private TabLayout tabLayout;
 
 
     public MoonFragment() {
@@ -43,6 +45,8 @@ public class MoonFragment extends Fragment {
                 ViewModelProviders.of(this).get(MoonViewModel.class);
         View root = inflater.inflate(R.layout.fragment_moon, container, false);
         viewPager = root.findViewById(R.id.moonsViewPager);
+        tabLayout=root.findViewById(R.id.moonsTabLayout);
+        tabLayout.setupWithViewPager(viewPager);
         moonViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -59,4 +63,5 @@ public class MoonFragment extends Fragment {
         MoonsPagerAdapter moonsPagerAdapter=new MoonsPagerAdapter(getChildFragmentManager(),list);
         viewPager.setAdapter(moonsPagerAdapter);
     }
+
 }
