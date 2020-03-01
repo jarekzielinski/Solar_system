@@ -1,5 +1,6 @@
 package com.pl.solarsystem.ui.moon;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,9 +26,8 @@ public class MoonFragment extends Fragment {
     public static final String OBJECTS = "objects";
     private MoonViewModel moonViewModel;
     private ViewPager viewPager;
-    private TabLayout tabLayout;
 
-
+TabCallback tabCallback;
     public MoonFragment() {
     }
 
@@ -45,8 +45,8 @@ public class MoonFragment extends Fragment {
                 ViewModelProviders.of(this).get(MoonViewModel.class);
         View root = inflater.inflate(R.layout.fragment_moon, container, false);
         viewPager = root.findViewById(R.id.moonsViewPager);
-        tabLayout=root.findViewById(R.id.moonsTabLayout);
-        tabLayout.setupWithViewPager(viewPager);
+
+
         moonViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -62,6 +62,29 @@ public class MoonFragment extends Fragment {
         List<SolarObject> list= (List<SolarObject>) getArguments().getSerializable(OBJECTS);
         MoonsPagerAdapter moonsPagerAdapter=new MoonsPagerAdapter(getChildFragmentManager(),list);
         viewPager.setAdapter(moonsPagerAdapter);
+        tabCallback.showTabs(viewPager);
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        tabCallback= (TabCallback) context;
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        tabCallback.hideTabs(viewPager);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        tabCallback=null;
+    }
+
+    public interface TabCallback{
+        void showTabs(ViewPager viewPager);
+        void hideTabs(ViewPager viewPager);
+}
 }

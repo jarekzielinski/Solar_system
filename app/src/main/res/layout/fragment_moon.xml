@@ -4,13 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-<com.google.android.material.tabs.TabLayout
-    android:id="@+id/moonsTabLayout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-   android:background="?attr/colorPrimary"
-    app:tabGravity="fill"
-    app:tabMode="scrollable"/>
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/moonsViewPager"
         android:layout_width="match_parent"
