@@ -10,10 +10,11 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SolarObject {
+public class SolarObject implements Serializable {
     public SolarObject(String name) {
         this.name = name;
     }
@@ -121,8 +122,13 @@ public class SolarObject {
         inputStream.close();
         return new String(buffer, "UTF-8");
     }
+
     public boolean hasMoons() {
         return moons != null && moons.size() > 0;
+    }
+
+    public String getImagePath() {
+        return String.format("file:///android_asset/%s" , getImage());
     }
 
 }

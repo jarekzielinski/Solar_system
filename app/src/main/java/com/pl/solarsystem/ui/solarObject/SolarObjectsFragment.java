@@ -15,8 +15,10 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.pl.solarsystem.MainActivity;
 import com.pl.solarsystem.R;
 import com.pl.solarsystem.model.SolarObject;
+import com.pl.solarsystem.ui.SolarObjectActivity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -73,6 +75,7 @@ public class SolarObjectsFragment extends Fragment implements SolarObjectsAdapte
     @Override
     public void solarObjectClicked(SolarObject solarObject) {
         Log.d("Clicked ", solarObject.getName());
+        SolarObjectActivity.startActivity(getActivity(),solarObject);
     }
 
     public void prepareRecyclerView(List<SolarObject> solarObjects) {
