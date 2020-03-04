@@ -1,7 +1,10 @@
 package com.pl.solarsystem.ui;
 
 import android.app.Activity;
+import android.app.WallpaperManager;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
@@ -9,13 +12,19 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Html;
+import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -42,25 +51,30 @@ public class SolarObjectActivity extends AppCompatActivity implements SolarObjec
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_solar_object);
+        solarObject = (SolarObject) getIntent().getSerializableExtra(OBJECT);
         textView = findViewById(R.id.objectTextView);
         imageView = findViewById(R.id.objectImageView);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         collapsingToolbarLayout = findViewById(R.id.toolbar_layout);
         moonsRecyclerView = findViewById(R.id.moonsRecyclerView);
         moonsTextView = findViewById(R.id.moonsLabel);
-
         setSupportActionBar(toolbar);
-
+        boolean hasMovie= !TextUtils.isEmpty(solarObject.getVideo());
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        if(hasMovie) {
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showYouTubeVideo(solarObject.getVideo());
+                }
+            });
+        }else{
+            CoordinatorLayout.LayoutParams coordinatorLayout= (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
+            coordinatorLayout.setAnchorId(View.NO_ID);
+            fab.setVisibility(View.GONE);
+        }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        solarObject = (SolarObject) getIntent().getSerializableExtra(OBJECT);
+
         collapsingToolbarLayout.setTitle(solarObject.getName());
         String text = null;
         try {
@@ -94,5 +108,38 @@ public class SolarObjectActivity extends AppCompatActivity implements SolarObjec
     @Override
     public void solarObjectClicked(SolarObject solarObject) {
         SolarObjectActivity.startActivity(this, solarObject);
+    }
+    public void showYouTubeVideo(String id){
+       try {
+           Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:"+id));
+           startActivity(intent);
+       }catch (ActivityNotFoundException e){
+           Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v="+id));
+           startActivity(intent);
+       }
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater=getMenuInflater();
+        menuInflater.inflate(R.menu.menu_solar_object,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()==R.id.action_set_as_wallpaper){
+            setAsWallpaper(solarObject.getImage());
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    public void setAsWallpaper(String image){
+        WallpaperManager wallpaperManager =WallpaperManager.getInstance(this);
+        try {
+            wallpaperManager.setStream(getAssets().open(image));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

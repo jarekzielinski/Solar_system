@@ -9,6 +9,7 @@
     <string name="nav_planets">Planets</string>
     <string name="nav_moons">Moons</string>
     <string name="nav_others">Others</string>
+    <string name="set_as_wallpaper">Ustaw jako tapetę</string>
 
     <string name="nav_open_drawer">Otwórz szufladę nawigacyjną</string>
     <string name="nav_close_drawer">Zamknij szufladę nawigacyjną</string>
